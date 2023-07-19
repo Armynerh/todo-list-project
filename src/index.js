@@ -2,24 +2,24 @@ import './style.css';
 
 const todos = [
   {
-    description: 'Some other words',
+    description: 'Clean the house',
     completed: true,
     index: 2,
   },
   {
-    description: 'Some last words',
+    description: 'Complete To Do list',
     completed: false,
     index: 3,
   },
   {
-    description: 'Some words',
+    description: 'Wash the dishes',
     completed: true,
     index: 1,
   },
 
 ];
 
-const todolist = todos.sort((a, b) => a.index - b.index).map((todo) => `<li class='todo-item'><label><input type='checkbox' id=${todo.index}> ${todo.description}</label> <div id='kebab'><i class="fa-solid fa-ellipsis-vertical"></i></div></li>`).join('');
+const todolist = todos.sort((a, b) => a.index - b.index).map((todo) => `<div class='todo-item'><label><input type='checkbox' id=${todo.index}> ${todo.description}</label> <div id='kebab'><i class="fa-solid fa-ellipsis-vertical"></i></div></div>`).join('');
 const task = document.querySelector('.tasks');
 
 document.addEventListener('DOMContentLoaded', () => {

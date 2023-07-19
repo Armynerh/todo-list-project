@@ -2,28 +2,24 @@ body {
   background-color: #f0eded;
 }
 
-.tasks {
-  list-style-type: none;
-  margin: 1px;
-}
-
 .todo-item {
   display: flex;
   padding: 10px;
   border: 1px solid #d8d6d6;
   align-items: center;
   justify-content: space-between;
-  width: 60%;
+  width: 30%;
   height: 20px;
   margin: auto;
+  color: #817c7c;
   background-color: #fff;
-}
-
- li span {
-  margin-left: 5px;
 }
 
 #kebab {
   color: #d8d6d6;
 }
 
+.last-para {
+  background: #eceaea;
+  justify-content: center;
+}
