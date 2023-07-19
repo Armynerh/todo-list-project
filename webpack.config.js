@@ -15,8 +15,8 @@ module.exports = {
       template: './src/index.html',
     }),
     new WebpackLighthousePlugin({
-      url: 'http://localhost:9001'
-    })
+      url: 'http://localhost:9001',
+    }),
 
   ],
   output: {
