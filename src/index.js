@@ -1,4 +1,3 @@
-
 import './style.css';
 
 const todos = [
@@ -17,11 +16,10 @@ const todos = [
     completed: true,
     index: 1,
   },
-  
+
 ];
 
-
-const todolist = todos.sort(function(a, b){return a.index - b.index}).map((todo) => `<li><label><input type='checkbox' id=${todo.index}> ${todo.description}</label> <div id='kebab'><i class="fa-solid fa-ellipsis-vertical"></i></div></li>`).join('');
+const todolist = todos.sort((a, b) => a.index - b.index).map((todo) => `<li><label><input type='checkbox' id=${todo.index}> ${todo.description}</label> <div id='kebab'><i class="fa-solid fa-ellipsis-vertical"></i></div></li>`).join('');
 const task = document.querySelector('.tasks');
 
 document.addEventListener('DOMContentLoaded', () => {
