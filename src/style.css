@@ -4,24 +4,26 @@ body {
 
 .tasks {
   list-style-type: none;
+  margin: 1px;
 }
 
-.tasks li {
+.todo-item {
   display: flex;
   padding: 10px;
   border: 1px solid #d8d6d6;
   align-items: center;
   justify-content: space-between;
-  width: 70%;
+  width: 60%;
   height: 20px;
   margin: auto;
   background-color: #fff;
 }
 
-li span {
+ li span {
   margin-left: 5px;
 }
 
 #kebab {
   color: #d8d6d6;
 }
+
