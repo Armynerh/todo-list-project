@@ -40,10 +40,11 @@ export const editTaskDescription = (index, newDescription) => {
 };
 export const addTodo = (text) => {
   const todos = getTodos();
+  const maxIndex = todos.reduce((max, todo) => (todo.index > max ? todo.index : max), -1);
   const todo = {
     description: text,
     completed: false,
-    index: todos.length,
+    index: maxIndex + 1, // Assigning the correct index for the new todo
   };
   todos.push(todo);
   localStorage.setItem('todos', JSON.stringify(todos));
