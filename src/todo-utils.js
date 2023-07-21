@@ -1,6 +1,6 @@
-import { handleDelete, handleCheckBoxChange, handleEdit } from './todo-func.js';
-import{ getTodos} from './completed.js'
+import { handleDelete, handleCheckBoxChange, handleEdit } from './todo-func.js';// eslint-disable-line
 
+export const getTodos = () => JSON.parse(localStorage.getItem('todos')) || [];
 export const renderTodos = () => {
   const todos = getTodos();
 
@@ -31,5 +31,5 @@ export const renderTodos = () => {
   trashBtn.forEach((btn) => btn.addEventListener('click', handleDelete));
 };
 export const refresh = () => {
- renderTodos(); // Now “renderTodos” can be called after it’s defined
+  renderTodos(); // Now “renderTodos” can be called after it’s defined
 };
