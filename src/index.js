@@ -1,4 +1,3 @@
-// index.js
 import './style.css';
 import { addTodo, deleteTask, editTaskDescription, getTodos } from './todo-func';
 
