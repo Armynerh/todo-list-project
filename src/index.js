@@ -1,5 +1,7 @@
 import './style.css';
-import { renderTodos, addTodo } from './todo-func.js';
+import {  addTodo } from './todo-func.js';
+import { clearCompleted } from './completed.js';
+import { renderTodos } from './todo-utils.js';
 
 const addBtn = document.querySelector('.todo-add-btn');
 
@@ -13,6 +15,15 @@ addBtn.addEventListener('click', () => {
   }
 });
 
+const clearCompletedBtn = document.querySelector('.clear-completed-btn');
+clearCompletedBtn.addEventListener('click', clearCompleted);
+
 document.addEventListener('DOMContentLoaded', () => {
+  renderTodos();
+});
+
+// Add event listener to the refresh icon
+const refreshIcon = document.querySelector('.fa-sync');
+refreshIcon.addEventListener('click', () => {
   renderTodos();
 });
