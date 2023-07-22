@@ -1,13 +1,11 @@
 export const getTodos = () => JSON.parse(localStorage.getItem('todos')) || [];
+
 export function renderTodos() {
   const todos = getTodos();
-  const todolist = todos
-    .sort((a, b) => a.index - b.index)
-    .map(
-      (todo) => `
-      <div class='todo-item' id="todo-item-${todo.index}">
+  const todolist = todos.sort((a, b) => a.index - b.index).map((todo) => `
+      <div class='todo-item ${todo.completed ? 'completed' : ''}' id="todo-item-${todo.index}">
         <label>
-          <input type='checkbox' data-id="${todo.index}" class='todo-check' >
+          <input type='checkbox' data-id="${todo.index}" class='todo-check' ${todo.completed ? 'checked' : ''} >
           ${todo.description}
         </label>
         <div class='kebab' data-id="${todo.index}">
@@ -16,8 +14,7 @@ export function renderTodos() {
         <i class="fa-solid fa-pen-to-square" data-id="${todo.index}"></i>
         <i class="fa-solid fa-trash" data-id="${todo.index}"></i>
       </div>
-    `,
-    )
+    `)
     .join('');
 
   const task = document.querySelector('.tasks');
@@ -61,6 +58,28 @@ export function renderTodos() {
     localStorage.setItem('todos', JSON.stringify(todos));
     renderTodos();
   }));
+
+  const checkbox = document.querySelectorAll('.todo-check');
+  checkbox.forEach((n) => n.addEventListener('change', (event) => {
+    const { id } = event.target.dataset;
+    const index = Number(id);
+    const completed = event.target.checked;
+    const todos = getTodos().map((todo) => {
+      if (todo.index === index) {
+        todo.completed = completed;
+      }
+      return todo;
+    });
+
+    localStorage.setItem('todos', JSON.stringify(todos));
+    renderTodos();
+  }));
+  const clearCompletedBtn = document.querySelector('.clear-completed-btn');
+  clearCompletedBtn.addEventListener('click', () => {
+    const todos = getTodos().filter((todo) => !todo.completed);
+    localStorage.setItem('todos', JSON.stringify(todos));
+    renderTodos();
+  });
 }
 
 export const addTodo = (text) => {
