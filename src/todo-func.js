@@ -1,27 +1,38 @@
 export const getTodos = () => JSON.parse(localStorage.getItem('todos')) || [];
-export const refresh = () => {
-  renderTodos();// eslint-disable-line
-};
-export const deleteTask = (index) => {
-  let todos = getTodos();
+export function renderTodos() {
+  const todos = getTodos();
 
-  const filteredTodos = todos.filter((n) => n.index !== index);
+  const todolist = todos
+    .sort((a, b) => a.index - b.index)
+    .map(
+      (todo) => `
+      <div class='todo-item' id="todo-item-${todo.index}">
+        <label>
+          <input type='checkbox' data-id="${todo.index}" class='todo-check' >
+          ${todo.description}
+        </label>
+        <div class='kebab' data-id="${todo.index}">
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </div>
+        <i class="fa-solid fa-pen-to-square" data-id="${todo.index}"></i>
+        <i class="fa-solid fa-trash" data-id="${todo.index}"></i>
+      </div>
+    `,
+    )
+    .join('');
 
-  // Update the indexes of the remaining tasks
-  const updatedTodos = filteredTodos.map((task, i) => {
-    task.index = i;
-    return task;
-  });
+  const task = document.querySelector('.tasks');
+  task.innerHTML = todolist;
 
-  todos = updatedTodos;
-  localStorage.setItem('todos', JSON.stringify(todos));
-  refresh();
-};
+  const editBtn = document.querySelectorAll('.fa-pen-to-square');
+  editBtn.forEach((btn) => btn.addEventListener('click', handleEdit));// eslint-disable-line
 
-export const editTaskDescription = (index, newDescription) => {
-  let todos = getTodos();
+  const trashBtn = document.querySelectorAll('.fa-trash');
+  trashBtn.forEach((btn) => btn.addEventListener('click', handleDelete));// eslint-disable-line
+}
 
-  todos = todos.map((todo) => {
+export function editTaskDescription(index, newDescription) {
+  const todos = getTodos().map((todo) => {
     if (todo.index === index) {
       todo.description = newDescription;
     }
@@ -29,85 +40,50 @@ export const editTaskDescription = (index, newDescription) => {
   });
 
   localStorage.setItem('todos', JSON.stringify(todos));
-  refresh();
-};
-
-function handleDelete() {
-  const id = this.id.split('-')[1];
-  deleteTask(Number(id));
+  renderTodos();
 }
 
-function handleEdit() {
-  const id = this.id.split('-')[1];
+export function handleEdit(event) {
+  const { id } = event.target.dataset;
   const todoItem = document.getElementById(`todo-item-${id}`);
   const todoDescription = todoItem.querySelector('label');
 
   const currentDescription = todoDescription.textContent.trim();
   todoDescription.innerHTML = `
-      <input type="text" id="edit-todo-input" value="${currentDescription}">
-      <i class="fa-solid fa-check" id="save-${id}"></i>
-    `;
+    <input type="text" id="edit-todo-input" value="${currentDescription}">
+    <i class="fa-solid fa-check" data-id="${id}"></i>
+  `;
 
-  const saveBtn = document.getElementById(`save-${id}`);
+  const saveBtn = document.querySelector(`[data-id="${id}"]`);
   saveBtn.addEventListener('click', () => {
     const updatedDescription = document.getElementById('edit-todo-input').value;
     if (updatedDescription.trim() !== '') {
       editTaskDescription(Number(id), updatedDescription);
-      refresh();
     }
   });
 }
 
+export function deleteTask(index) {
+  const todos = getTodos().filter((todo) => todo.index !== index);
+  localStorage.setItem('todos', JSON.stringify(todos));
+  renderTodos();
+}
+export function handleDelete(event) {
+  const { id } = event.target.dataset;
+  deleteTask(Number(id));
+}
+
 export const addTodo = (text) => {
   const todos = getTodos();
-
+  const maxIndex = todos.reduce((max, todo) => (todo.index > max ? todo.index : max), -1);
   const todo = {
     description: text,
     completed: false,
-    index: todos.length,
+    index: maxIndex + 1, // Assigning the correct index for the new todo
   };
-
   todos.push(todo);
   localStorage.setItem('todos', JSON.stringify(todos));
-  refresh();
+  renderTodos();
 };
 
-function handleCheckBoxChange() {
-  const { id } = this;
-  const remBtn = document.querySelector(`#kebab-${id}`);
-  remBtn.innerHTML = `<i class="fa-solid fa-pen-to-square" id="edit-${id}"></i><span><i class="fa-solid fa-trash" id=trash-${id}></i></span>`;
-  const trashBtn = document.querySelector(`#trash-${id}`);
-  const editBtn = document.querySelector(`#edit-${id}`);
-
-  trashBtn.addEventListener('click', handleDelete);
-  editBtn.addEventListener('click', handleEdit);
-}
-export const renderTodos = () => {
-  const todos = getTodos();
-
-  const todolist = todos.sort((a, b) => a?.index - b?.index).map((todo) => `
-        <div class='todo-item' id="todo-item-${todo.index}">
-          <label>
-            <input type='checkbox' id=${todo.index} class='todo-check' >
-            ${todo.description}
-          </label>
-          <div class='kebab' id=kebab-${todo.index}>
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </div>
-          <i class="fa-solid fa-pen-to-square" id="edit-${todo.index}"></i>
-          <i class="fa-solid fa-trash" id="trash-${todo.index}"></i>
-        </div>
-      `).join('');
-
-  const task = document.querySelector('.tasks');
-  task.innerHTML = todolist;
-
-  const checkbox = document.querySelectorAll('.todo-check');
-  checkbox.forEach((n) => n.addEventListener('change', handleCheckBoxChange));
-
-  const editBtn = document.querySelectorAll('.fa-pen-to-square');
-  editBtn.forEach((btn) => btn.addEventListener('click', handleEdit));
-
-  const trashBtn = document.querySelectorAll('.fa-trash');
-  trashBtn.forEach((btn) => btn.addEventListener('click', handleDelete));
-};
+renderTodos(); // Initially render todos on page load
