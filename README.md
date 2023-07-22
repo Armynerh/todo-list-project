@@ -15,7 +15,6 @@
   - [🛠 Built With](#built-with)
     - [Tech Stack](#tech-stack)
     - [Key Features](#key-features)
-  - [🚀 Live Demo](#live-demo)
 - [💻 Getting Started](#getting-started)
   - [Setup](#setup)
   - [Prerequisites](#prerequisites)
@@ -32,7 +31,7 @@
 - [📝 License](#license)
 
 <!-- INTRO -->
-# 📖 Portfolio <a name="about-project"></a>
+# 📖 Todo List <a name="about-project"></a>
 
 > This is a To-do list project built with Webpack 
 
@@ -64,15 +63,6 @@
 > - Added HTML syntx from JS
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- LIVE DEMO -->
-
-## 🚀 Live Demo <a name="live-demo" target="_blank"></a>
-
-- [Live Demo Link will be added shortly]()
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- GETTING STARTED -->
 

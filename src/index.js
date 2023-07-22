@@ -1,27 +1,18 @@
 import './style.css';
+import { renderTodos, addTodo } from './todo-func.js';
 
-const todos = [
-  {
-    description: 'Clean the house',
-    completed: true,
-    index: 2,
-  },
-  {
-    description: 'Complete To Do list',
-    completed: false,
-    index: 3,
-  },
-  {
-    description: 'Wash the dishes',
-    completed: true,
-    index: 1,
-  },
+const addBtn = document.querySelector('.todo-add-btn');
 
-];
-
-const todolist = todos.sort((a, b) => a.index - b.index).map((todo) => `<div class='todo-item'><label><input type='checkbox' id=${todo.index}> ${todo.description}</label> <div id='kebab'><i class="fa-solid fa-ellipsis-vertical"></i></div></div>`).join('');
-const task = document.querySelector('.tasks');
+addBtn.addEventListener('click', () => {
+  const txtInput = document.getElementById('todo-input');
+  const text = txtInput.value.trim();
+  if (text !== '') {
+    addTodo(text);
+    txtInput.value = '';
+    txtInput.focus();
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
-  task.innerHTML = todolist;
+  renderTodos();
 });
