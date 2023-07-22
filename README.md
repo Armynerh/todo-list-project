@@ -31,7 +31,7 @@
 - [📝 License](#license)
 
 <!-- INTRO -->
-# 📖 Portfolio <a name="about-project"></a>
+# 📖 Todo List <a name="about-project"></a>
 
 > This is a To-do list project built with Webpack 
 
