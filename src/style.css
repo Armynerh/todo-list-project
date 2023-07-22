@@ -23,3 +23,44 @@ body {
   background: #eceaea;
   justify-content: center;
 }
+
+input::placeholder {
+  font-style: italic;
+}
+
+input {
+  border: none;
+}
+
+/* style.css */
+
+/* Add some basic styles to the todo items and the edit/delete buttons */
+
+/* style.css */
+
+/* Add some basic styles to the todo items and the edit/delete buttons */
+
+.todo-item label {
+  flex: 1;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.fa-pen-to-square,
+.fa-trash {
+  cursor: pointer;
+  margin-left: 8px;
+  display: none;
+}
+
+/* Show edit and delete buttons on hover of the todo item */
+.todo-item:hover .fa-pen-to-square,
+.todo-item:hover .fa-trash {
+  display: inline;
+}
+
+.todo-item:hover .fa-ellipsis-vertical {
+  display: none;
+}
+
+/* ... Other styles ... */
