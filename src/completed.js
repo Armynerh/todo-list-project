@@ -1,4 +1,5 @@
-import { renderTodos } from './todo-utils.js'; // eslint-disable-line
+import { renderTodos } from './todo-func.js';
+
 export const refresh = () => {
   renderTodos(); // Now “renderTodos” can be called after it’s defined
 };
@@ -20,3 +21,8 @@ export const clearCompleted = () => {
   localStorage.setItem('todos', JSON.stringify(todos));
   refresh();
 };
+export function handleCheckBoxChange() {
+  const { id } = this;
+  const completed = this.checked;
+  updateStatus(Number(id), completed);
+}

@@ -1,7 +1,7 @@
 import './style.css';
-import { addTodo } from './todo-func.js';
+import { addTodo, renderTodos} from './todo-func.js';
 import { clearCompleted } from './completed.js';
-import { renderTodos } from './todo-utils.js';
+
 
 const addBtn = document.querySelector('.todo-add-btn');
 
