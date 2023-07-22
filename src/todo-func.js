@@ -1,7 +1,6 @@
 export const getTodos = () => JSON.parse(localStorage.getItem('todos')) || [];
 export function renderTodos() {
   const todos = getTodos();
-
   const todolist = todos
     .sort((a, b) => a.index - b.index)
     .map(
@@ -25,52 +24,43 @@ export function renderTodos() {
   task.innerHTML = todolist;
 
   const editBtn = document.querySelectorAll('.fa-pen-to-square');
-  editBtn.forEach((btn) => btn.addEventListener('click', handleEdit));// eslint-disable-line
+  editBtn.forEach((btn) => btn.addEventListener('click', (event) => {
+    const { id } = event.target.dataset;
+    const todoItem = document.getElementById(`todo-item-${id}`);
+    const todoDescription = todoItem.querySelector('label');
+
+    const currentDescription = todoDescription.textContent.trim();
+    todoDescription.innerHTML = `
+      <input type="text" id="edit-todo-input" value="${currentDescription}">
+      <i class="fa-solid fa-check" data-id="${id}"></i>
+    `;
+
+    const saveBtn = document.querySelector(`[data-id="${id}"]`);
+    saveBtn.addEventListener('click', () => {
+      const updatedDescription = document.getElementById('edit-todo-input').value;
+      if (updatedDescription.trim() !== '') {
+        const index = Number(id);
+        const todos = getTodos().map((todo) => {
+          if (todo.index === index) {
+            todo.description = updatedDescription;
+          }
+          return todo;
+        });
+
+        localStorage.setItem('todos', JSON.stringify(todos));
+        renderTodos();
+      }
+    });
+  }));
 
   const trashBtn = document.querySelectorAll('.fa-trash');
-  trashBtn.forEach((btn) => btn.addEventListener('click', handleDelete));// eslint-disable-line
-}
-
-export function editTaskDescription(index, newDescription) {
-  const todos = getTodos().map((todo) => {
-    if (todo.index === index) {
-      todo.description = newDescription;
-    }
-    return todo;
-  });
-
-  localStorage.setItem('todos', JSON.stringify(todos));
-  renderTodos();
-}
-
-export function handleEdit(event) {
-  const { id } = event.target.dataset;
-  const todoItem = document.getElementById(`todo-item-${id}`);
-  const todoDescription = todoItem.querySelector('label');
-
-  const currentDescription = todoDescription.textContent.trim();
-  todoDescription.innerHTML = `
-    <input type="text" id="edit-todo-input" value="${currentDescription}">
-    <i class="fa-solid fa-check" data-id="${id}"></i>
-  `;
-
-  const saveBtn = document.querySelector(`[data-id="${id}"]`);
-  saveBtn.addEventListener('click', () => {
-    const updatedDescription = document.getElementById('edit-todo-input').value;
-    if (updatedDescription.trim() !== '') {
-      editTaskDescription(Number(id), updatedDescription);
-    }
-  });
-}
-
-export function deleteTask(index) {
-  const todos = getTodos().filter((todo) => todo.index !== index);
-  localStorage.setItem('todos', JSON.stringify(todos));
-  renderTodos();
-}
-export function handleDelete(event) {
-  const { id } = event.target.dataset;
-  deleteTask(Number(id));
+  trashBtn.forEach((btn) => btn.addEventListener('click', (event) => {
+    const { id } = event.target.dataset;
+    const index = Number(id);
+    const todos = getTodos().filter((todo) => todo.index !== index);
+    localStorage.setItem('todos', JSON.stringify(todos));
+    renderTodos();
+  }));
 }
 
 export const addTodo = (text) => {
@@ -85,5 +75,3 @@ export const addTodo = (text) => {
   localStorage.setItem('todos', JSON.stringify(todos));
   renderTodos();
 };
-
-renderTodos(); // Initially render todos on page load
